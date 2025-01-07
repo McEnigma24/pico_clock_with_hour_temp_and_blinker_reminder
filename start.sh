@@ -92,7 +92,7 @@ pico_env_prep()
     export PICOTOOL_FETCH_FROM_GIT_PATH=/home/womackow/pico_projects/pico-sdk
 
     cd ../pico-sdk
-    git submodule update --init
+    git submodule update --init --recursive
     silent_come_back;
 }
 env_prep()

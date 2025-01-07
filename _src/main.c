@@ -20,23 +20,29 @@ void pico_set_led(bool led_on)
     #endif
 }
 
-#define NUM_OF_BLINKS   ( 3 )
+#define NUM_OF_BLINKS   ( 1 )
 #define TIME_QUICK      ( 100 )
 #define TIME_LONG       ( 250 )
 
 void blink_quick()
 {
-    pico_set_led(true);
-    sleep_ms(TIME_QUICK);
-    pico_set_led(false);
-    sleep_ms(TIME_QUICK);
+    for(int i=0; i<NUM_OF_BLINKS; i++)
+    {
+        pico_set_led(true);
+        sleep_ms(TIME_QUICK);
+        pico_set_led(false);
+        sleep_ms(TIME_QUICK);
+    }
 }
 void blink_long()
 {
-    pico_set_led(true);
-    sleep_ms(TIME_LONG);
-    pico_set_led(false);
-    sleep_ms(TIME_LONG);
+    for(int i=0; i<NUM_OF_BLINKS; i++)
+    {
+        pico_set_led(true);
+        sleep_ms(TIME_LONG);
+        pico_set_led(false);
+        sleep_ms(TIME_LONG);
+    }
 }
 
 #define PIN_BUTTON_power 14
@@ -52,21 +58,29 @@ void button_init()
     gpio_set_dir(PIN_BUTTON_output, GPIO_IN);
     gpio_pull_down(PIN_BUTTON_output);
 }
-bool button_status()
+bool button_clicked()
 {
     return gpio_get(PIN_BUTTON_output) == 1;
 }
 
-#define PIN_BUTTON_output 15
+#define PIN_CLOCK_power 11
+
+void clock_init()
+{
+    gpio_init(PIN_CLOCK_power);
+    gpio_set_dir(PIN_CLOCK_power, GPIO_OUT);
+    gpio_put(PIN_CLOCK_power, 1); // Włączamy zasilanie na pinie (3.3V)
+}
 
 int main()
 {
     pico_led_init();
     button_init();
+    clock_init();
 
     while (true)
     {
-        if (button_status())
+        if (button_clicked())
         {
             blink_quick();
         }
