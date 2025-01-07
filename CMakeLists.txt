@@ -14,6 +14,9 @@ endif()
 set(PICO_EXAMPLES_PATH ${PROJECT_SOURCE_DIR})
 pico_sdk_init()
 
+set(PICO_SSD1306_DIR "../pico-ssd1306")
+include(pico-ssd1306.cmake)
+
 include_directories(_inc)
 aux_source_directory(_src SOURCES)
 
@@ -21,6 +24,9 @@ set(EXE_NAME "out.exe")
 add_executable(${EXE_NAME} ${SOURCES})
 target_compile_definitions(${EXE_NAME} PRIVATE PICO)
 
-target_link_libraries(${EXE_NAME} pico_stdlib)
+target_link_libraries(${EXE_NAME} 
+    pico_stdlib
+    pico_ssd1306
+)
 
 pico_add_extra_outputs(${EXE_NAME})
